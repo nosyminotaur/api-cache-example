@@ -2,8 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { cache } from './cacheHandler';
 
 export const client = axios.create({ baseURL: 'http://localhost:8080/api/widget', withCredentials: true });
-export const businessPrefix = '/b';
-const whiteList = ['weather'];
+const whiteList = ['auth'];
 
 function isURLInWhiteList(url: string) {
     return whiteList.includes(url.split('/')[1]);
@@ -13,7 +12,7 @@ function responseHandler(response: AxiosResponse<any>): AxiosResponse<any> {
     // eslint-disable-next-line no-constant-condition
     if (response.config.method === 'GET' || 'get') {
         if (response.config.url && !isURLInWhiteList(response.config.url)) {
-            console.log('storing in cache')
+            console.log('storing in cache');
             cache.store(response.config.url, JSON.stringify(response.data));
         }
     }
