@@ -10,7 +10,7 @@ function isURLInWhiteList(url: string) {
 
 function responseHandler(response: AxiosResponse<any>): AxiosResponse<any> {
     // eslint-disable-next-line no-constant-condition
-    if (response.config.method === 'GET' || 'get') {
+    if (response.config.method === 'GET' || response.config.method === 'get') {
         if (response.config.url && !isURLInWhiteList(response.config.url)) {
             console.log('storing in cache');
             cache.store(response.config.url, JSON.stringify(response.data));
@@ -29,7 +29,7 @@ function errorHandler(error: any) {
 
 function requestHandler(request: AxiosRequestConfig) {
     // eslint-disable-next-line no-constant-condition
-    if (request.method === 'GET' || 'get') {
+    if (request.method === 'GET' || request.method === 'get') {
         const checkIsValidResponse = cache.isValid(request.url || '');
         if (checkIsValidResponse.isValid) {
             console.log('serving cached data');
